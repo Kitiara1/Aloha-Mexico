@@ -9,8 +9,9 @@ public class EscenaInicialControl : MonoBehaviour
     private void Update()
     {
         // Si el usuario presiona una tecla se puede mover
-        if (!canMove && Input.anyKeyDown)
+        if (!canMove && Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("Se ha presionado la tecla Space.");
             canMove = true;
         }
     }
@@ -18,6 +19,7 @@ public class EscenaInicialControl : MonoBehaviour
     // Método para comprobar si el movimiento del personaje está habilitado
     public bool CanMoveCharacter()
     {
+        Debug.Log(canMove);
         return canMove;
     }
 }

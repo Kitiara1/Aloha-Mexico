@@ -4,26 +4,55 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float moveSpeed = 5.0f; // velocidad de movimiento
-    private EscenaInicialControl escenaInicialControl;
+    public GameObject escenaInicial;
+    public float velocidadCaminar = 5.0f;
+    public float velocidadCorrer = 10.0f;
+    public float velocidadActual;
+    public float multiplicadorCorrer = 2.0f;
+
+    private bool juegoIniciado = false;
 
     private void Start()
     {
-        // Obtener la referencia al script de control de la pantalla de inicio
-        escenaInicialControl = FindObjectOfType<EscenaInicialControl>();
+        // Desactivar el cursor para permitir el control del personaje.
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        velocidadActual = velocidadCaminar;
     }
 
     private void Update()
     {
-        // Verificar si el movimiento del personaje está habilitado
-        if (escenaInicialControl.CanMoveCharacter())
+        if (!juegoIniciado)
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
+            if (Input.anyKeyDown)
+            {
+                escenaInicial.SetActive(false);
+                juegoIniciado = true;
+            }
+        }
 
-            Vector3 movement = new Vector3(horizontalInput, 0.0f, verticalInput) * moveSpeed * Time.deltaTime;
+        if (juegoIniciado)
+        {
+            // Verificar si el jugador quiere correr.
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                velocidadActual = velocidadCorrer;
+            }
+            else
+            {
+                velocidadActual = velocidadCaminar;
+            }
 
-            transform.Translate(movement);
+            // Obtener las entradas de movimiento del jugador.
+            float movimientoHorizontal = Input.GetAxis("Horizontal");
+            float movimientoVertical = Input.GetAxis("Vertical");
+
+            // Calcular la dirección del movimiento.
+            Vector3 movimiento = transform.right * movimientoHorizontal + transform.forward * movimientoVertical;
+
+            // Aplicar el movimiento al personaje.
+            transform.Translate(movimiento * velocidadActual * Time.deltaTime);
         }
     }
 }
