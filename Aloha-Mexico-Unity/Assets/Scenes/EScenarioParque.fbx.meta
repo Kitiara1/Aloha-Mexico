@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material #27
-    second: {fileID: 2100000, guid: 41de8bf4bf0b43d40aa11dd8af271e62, type: 2}
+      name: kisko
+    second: {fileID: 2100000, guid: 0a4600a65a9462843b89505faa2c291e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: arboles
-    second: {fileID: 2100000, guid: d9903ef2faa10074e89e99e4a9bf1fa8, type: 2}
+      name: ufo
+    second: {fileID: 2100000, guid: ed4b897e97b124c41bc1a3938c0d9cf4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
