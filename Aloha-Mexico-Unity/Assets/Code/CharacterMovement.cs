@@ -5,10 +5,13 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     public GameObject escenaInicial;
+    public GameObject alien;
+    public GameObject alienBack;
     public float velocidadCaminar = 5.0f;
     public float velocidadCorrer = 10.0f;
     public float velocidadActual;
     public float multiplicadorCorrer = 2.0f;
+    public float velocidadRotacion = 3.0f;
 
     private bool juegoIniciado = false;
 
@@ -19,6 +22,8 @@ public class CharacterMovement : MonoBehaviour
         Cursor.visible = false;
 
         velocidadActual = velocidadCaminar;
+        alien.SetActive(true);
+        alienBack.SetActive(false);
     }
 
     private void Update()
@@ -44,15 +49,30 @@ public class CharacterMovement : MonoBehaviour
                 velocidadActual = velocidadCaminar;
             }
 
-            // Obtener las entradas de movimiento del jugador.
+            // Movimiento con las teclas AWSD
             float movimientoHorizontal = Input.GetAxis("Horizontal");
             float movimientoVertical = Input.GetAxis("Vertical");
 
-            // Calcular la dirección del movimiento.
-            Vector3 movimiento = transform.right * movimientoHorizontal + transform.forward * movimientoVertical;
+            Vector3 movimiento = transform.forward * movimientoVertical * velocidadActual +
+                                 transform.right * movimientoHorizontal * velocidadActual;
 
-            // Aplicar el movimiento al personaje.
-            transform.Translate(movimiento * velocidadActual * Time.deltaTime);
+            transform.Translate(movimiento * Time.deltaTime, Space.World);
+
+            // Rotación con el movimiento del mouse
+            float rotacionHorizontal = Input.GetAxis("Mouse X");
+            transform.Rotate(Vector3.up, rotacionHorizontal * velocidadRotacion);
+
+            // Cambio entre objetos "alien" y "alien_back" según el movimiento
+            if (movimiento.magnitude > 0.1f)
+            {
+                alien.SetActive(false);
+                alienBack.SetActive(true);
+            }
+            else
+            {
+                alien.SetActive(true);
+                alienBack.SetActive(false);
+            }
         }
     }
 }
